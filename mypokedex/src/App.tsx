@@ -1,16 +1,40 @@
-import React from "react";
-import Button from "@mui/material/Button";
+import React, { useState, useEffect } from "react";
+import Navbar from "./components/Navbar/Navbar";
+import PokemonCard from "./components/PokemonCard/PokemonCard";
+import Loader from "./components/Loader/Loader";
+import axios from "axios";
 import "./App.css";
 
 const App: React.FC = () => {
+  const [allPokemons, setAllPokemons] = useState([]);
+  const [loader, setLoader] = useState(false);
+
+  async function getAllPokemons() {
+    try {
+      setLoader(true);
+      const pokemons = await axios("https://tyradex.vercel.app/api/v1/pokemon");
+      setAllPokemons(pokemons.data);
+    } catch (error) {
+      console.error("Erreur lors de la récupération des pokémons :", error);
+    } finally {
+      setLoader(false);
+    }
+  }
+
+  useEffect(() => {
+    getAllPokemons();
+  }, []);
+
   return (
-    <div className="flex flex-col items-center justify-center h-screen bg-gray-100">
-      <h1 className="text-4xl font-bold text-red-600 mb-4">
-        Hello Vite + React + TypeScript
-      </h1>
-      <Button variant="contained" color="primary">
-        Material-UI Button
-      </Button>
+    <div className="app-container">
+      <header>
+        <Navbar />
+      </header>
+      <main>
+        {loader && <Loader />}
+        <PokemonCard allPokemons={allPokemons} />
+      </main>
+      <footer></footer>
     </div>
   );
 };
