@@ -1,3 +1,4 @@
+import { useState } from "react";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
@@ -21,11 +22,19 @@ interface PokemonCardProps {
 }
 
 export default function PokemonCard({ allPokemons }: PokemonCardProps) {
+  const [limit, setLimit] = useState(30);
+
+  const handleLoadMore = () => {
+    setLimit(limit + 30);
+  };
+
+  const showAllPokemons = allPokemons.slice(0, limit);
+
   console.log(allPokemons);
 
   return (
-    <div className="card-container flex flex-wrap justify-center items-center pt-8 pb-8 gap-4">
-      {allPokemons.map((pokemon, index) => (
+    <div className="flex flex-wrap justify-center items-center pt-8 pb-8 gap-4">
+      {showAllPokemons.map((pokemon, index) => (
         <Card key={index} sx={{ maxWidth: 345 }}>
           <CardActionArea>
             <CardMedia
@@ -50,6 +59,16 @@ export default function PokemonCard({ allPokemons }: PokemonCardProps) {
           </CardActions>
         </Card>
       ))}
+      <div className="w-full flex justify-center mt-4">
+        <Button
+        sx={{ backgroundColor: "#CC4C41", color: "white" }}
+          variant="contained"
+          onClick={handleLoadMore}
+          className="load-more"
+        >
+          Voir plus
+        </Button>
+      </div>
     </div>
   );
 }
