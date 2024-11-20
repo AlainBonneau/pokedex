@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import Navbar from "./components/Navbar/Navbar";
 import PokemonCard from "./components/PokemonCard/PokemonCard";
 import Loader from "./components/Loader/Loader";
-import axios from "axios";
+import axiosInstance from "./lib/axios/axios";
 import "./App.css";
 
 const App: React.FC = () => {
@@ -12,7 +12,7 @@ const App: React.FC = () => {
   async function getAllPokemons() {
     try {
       setLoader(true);
-      const pokemons = await axios("https://tyradex.vercel.app/api/v1/pokemon");
+      const pokemons = await axiosInstance("/pokemon");
       setAllPokemons(pokemons.data);
     } catch (error) {
       console.error("Erreur lors de la récupération des pokémons :", error);
