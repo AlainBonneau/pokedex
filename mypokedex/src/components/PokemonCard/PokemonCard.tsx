@@ -6,7 +6,21 @@ import Button from "@mui/material/Button";
 import CardActionArea from "@mui/material/CardActionArea";
 import CardActions from "@mui/material/CardActions";
 
-export default function PokemonCard({ allPokemons }) {
+interface Pokemon {
+  name: {
+    fr: string;
+  };
+  sprites: {
+    regular: string;
+  };
+  category: string;
+}
+
+interface PokemonCardProps {
+  allPokemons: Pokemon[];
+}
+
+export default function PokemonCard({ allPokemons }: PokemonCardProps) {
   console.log(allPokemons);
 
   return (
