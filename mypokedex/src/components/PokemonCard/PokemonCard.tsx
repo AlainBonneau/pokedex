@@ -15,6 +15,7 @@ interface Pokemon {
     regular: string;
   };
   category: string;
+  pokedex_id: number;
 }
 
 interface PokemonCardProps {
@@ -53,7 +54,11 @@ export default function PokemonCard({ allPokemons }: PokemonCardProps) {
             </CardContent>
           </CardActionArea>
           <CardActions className="bg-[#CC4C41] flex items-center justify-center">
-            <Button size="small" sx={{ color: "black" }}>
+            <Button
+              size="small"
+              sx={{ color: "black" }}
+              href={`/${pokemon.pokedex_id}`}
+            >
               Voir plus
             </Button>
           </CardActions>
@@ -61,7 +66,7 @@ export default function PokemonCard({ allPokemons }: PokemonCardProps) {
       ))}
       <div className="w-full flex justify-center mt-4">
         <Button
-        sx={{ backgroundColor: "#CC4C41", color: "white" }}
+          sx={{ backgroundColor: "#CC4C41", color: "white" }}
           variant="contained"
           onClick={handleLoadMore}
           className="load-more"
