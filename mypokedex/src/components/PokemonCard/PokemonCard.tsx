@@ -57,7 +57,7 @@ export default function PokemonCard({ allPokemons }: PokemonCardProps) {
             <Button
               size="small"
               sx={{ color: "black" }}
-              href={`/${pokemon.pokedex_id}`}
+              href={`/pokemon/${pokemon.pokedex_id}`}
             >
               Voir plus
             </Button>

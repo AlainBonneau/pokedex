@@ -12,9 +12,10 @@ createRoot(document.getElementById("root")!).render(
     <Router>
       <Routes>
         <Route path="/" element={<App />} />
-        <Route path="/:pokemonId" element={<PokemonPage />} />
         <Route path="/about" element={<About />} />
+        <Route path="/gender" element={<Page404 />} />
         <Route path="*" element={<Page404 />} />
+        <Route path="/pokemon/:pokemonId" element={<PokemonPage />} />
       </Routes>
     </Router>
   </StrictMode>

@@ -1,4 +1,5 @@
 import Navbar from "../components/Navbar/Navbar";
+import Footer from "../components/Footer/Footer";
 
 function Page404() {
   return (
@@ -10,6 +11,9 @@ function Page404() {
         </h1>
         <img className="w-96" src="/img/404.webp" alt="404 - Pikachu crying" />
       </div>
+      <footer>
+        <Footer />
+      </footer>
     </div>
   );
 }

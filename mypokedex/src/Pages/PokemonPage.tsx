@@ -80,12 +80,12 @@ function PokemonPage() {
 
   function handleNextPokemon() {
     const nextPokemonId = Number(pokemonId) + 1;
-    window.location.href = `/${nextPokemonId}`;
+    window.location.href = `/pokemon/${nextPokemonId}`;
   }
 
   function handlePreviousPokemon() {
     const previousPokemonId = Number(pokemonId) - 1;
-    window.location.href = `/${previousPokemonId}`;
+    window.location.href = `/pokemon/${previousPokemonId}`;
   }
 
   return (
