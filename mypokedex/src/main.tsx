@@ -10,13 +10,7 @@ import "./index.css";
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <Router>
-      <Routes>
-        <Route path="/" element={<App />} />
-        <Route path="/about" element={<About />} />
-        <Route path="/gender" element={<Page404 />} />
-        <Route path="*" element={<Page404 />} />
-        <Route path="/pokemon/:pokemonId" element={<PokemonPage />} />
-      </Routes>
+      <App />
     </Router>
   </StrictMode>
 );

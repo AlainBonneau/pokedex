@@ -90,7 +90,6 @@ function PokemonPage() {
 
   return (
     <div className="pokemon-page-container">
-      <Navbar />
       <div className="title-container text-center mt-8">
         <h1 className="font-bold text-4xl text-[#CC4C41]">
           {pokemon.name?.fr || "Nom inconnu"}

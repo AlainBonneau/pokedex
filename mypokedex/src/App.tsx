@@ -1,45 +1,21 @@
-import React, { useState, useEffect } from "react";
-import Navbar from "./components/Navbar/Navbar";
-import PokemonCard from "./components/PokemonCard/PokemonCard";
-import Loader from "./components/Loader/Loader";
-import Footer from "./components/Footer/Footer";
-import axiosInstance from "./lib/axios/axios";
-import "./App.css";
+import { Routes, Route } from "react-router-dom";
+import Layout from "./components/Layout";
+import HomePage from "./Pages/HomePage";
+import PokemonPage from "./Pages/PokemonPage";
+import About from "./Pages/About";
+import Page404 from "./Pages/Page404";
 
-const App: React.FC = () => {
-  const [allPokemons, setAllPokemons] = useState([]);
-  const [loader, setLoader] = useState(false);
-
-  async function getAllPokemons() {
-    try {
-      setLoader(true);
-      const pokemons = await axiosInstance("/pokemon");
-      setAllPokemons(pokemons.data);
-    } catch (error) {
-      console.error("Erreur lors de la récupération des pokémons :", error);
-    } finally {
-      setLoader(false);
-    }
-  }
-
-  useEffect(() => {
-    getAllPokemons();
-  }, []);
-
+function App() {
   return (
-    <div className="app-container">
-      <header>
-        <Navbar />
-      </header>
-      <main>
-        {loader && <Loader />}
-        <PokemonCard allPokemons={allPokemons} />
-      </main>
-      <footer>
-        <Footer />
-      </footer>
-    </div>
+    <Layout>
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/about" element={<About />} />
+        <Route path="/pokemon/:pokemonId" element={<PokemonPage />} />
+        <Route path="*" element={<Page404 />} />
+      </Routes>
+    </Layout>
   );
-};
+}
 
 export default App;
