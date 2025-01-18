@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import Navbar from "./components/Navbar/Navbar";
 import PokemonCard from "./components/PokemonCard/PokemonCard";
 import Loader from "./components/Loader/Loader";
+import Footer from "./components/Footer/Footer";
 import axiosInstance from "./lib/axios/axios";
 import "./App.css";
 
@@ -34,7 +35,9 @@ const App: React.FC = () => {
         {loader && <Loader />}
         <PokemonCard allPokemons={allPokemons} />
       </main>
-      <footer></footer>
+      <footer>
+        <Footer />
+      </footer>
     </div>
   );
 };

@@ -66,7 +66,11 @@ export default function PokemonCard({ allPokemons }: PokemonCardProps) {
       ))}
       <div className="w-full flex justify-center mt-4">
         <Button
-          sx={{ backgroundColor: "#CC4C41", color: "white" }}
+          sx={{
+            backgroundColor: "#CC4C41",
+            color: "white !important",
+            "&:hover": { backgroundColor: "#b43d33" }, // Couleur au survol
+          }}
           variant="contained"
           onClick={handleLoadMore}
           className="load-more"
