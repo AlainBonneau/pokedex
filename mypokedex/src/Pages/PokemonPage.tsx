@@ -78,6 +78,16 @@ function PokemonPage() {
     );
   }
 
+  function handleNextPokemon() {
+    const nextPokemonId = Number(pokemonId) + 1;
+    window.location.href = `/${nextPokemonId}`;
+  }
+
+  function handlePreviousPokemon() {
+    const previousPokemonId = Number(pokemonId) - 1;
+    window.location.href = `/${previousPokemonId}`;
+  }
+
   return (
     <div className="pokemon-page-container">
       <Navbar />
@@ -106,6 +116,20 @@ function PokemonPage() {
           }`}</p>
           <p>{`Vitesse : ${pokemon.stats?.vit ?? "Non disponible"}`}</p>
         </div>
+      </div>
+      <div className="next-previous-container p-4 flex justify-between">
+        <button
+          onClick={handlePreviousPokemon}
+          className="pt-2 pb-2 pl-4 pr-4 bg-[#CC4C41] text-white rounded-md font-medium shadow-md hover:bg-[#b43d33] hover:shadow-lg active:bg-[#9e342b] transition-all duration-200 ease-in-out"
+        >
+          Précédent
+        </button>
+        <button
+          onClick={handleNextPokemon}
+          className="pt-2 pb-2 pl-4 pr-4 bg-[#CC4C41] text-white rounded-md font-medium shadow-md hover:bg-[#b43d33] hover:shadow-lg active:bg-[#9e342b] transition-all duration-200 ease-in-out"
+        >
+          Suivant
+        </button>
       </div>
     </div>
   );
