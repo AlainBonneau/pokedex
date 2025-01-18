@@ -84,7 +84,14 @@ function Navbar() {
                 {pages.map((page) => (
                   <MenuItem key={page.name} onClick={handleCloseNavMenu}>
                     <Typography sx={{ textAlign: "center" }}>
-                      {page.name}
+                      <Button
+                        href={page.link}
+                        key={page.name}
+                        onClick={handleCloseNavMenu}
+                        sx={{ my: 1, color: "black", display: "block" }}
+                      >
+                        {page.name}
+                      </Button>
                     </Typography>
                   </MenuItem>
                 ))}
