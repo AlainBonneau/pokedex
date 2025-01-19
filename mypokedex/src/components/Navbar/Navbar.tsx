@@ -112,7 +112,7 @@ function Navbar() {
               href="/"
               sx={{
                 mr: 2,
-                display: { xs: "flex", md: "none" },
+                display: { xs: "none", md: "none" },
                 flexGrow: 1,
                 fontFamily: "monospace",
                 fontWeight: 700,
@@ -140,7 +140,7 @@ function Navbar() {
               type="search"
               id="pokemon-search"
               placeholder="Recherche"
-              className="p-1 rounded-sm text-black"
+              className="p-1 rounded-sm text-black max-sm:w-1/2"
             />
           </Toolbar>
         </Container>
