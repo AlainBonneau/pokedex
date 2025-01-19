@@ -7,10 +7,13 @@ import axiosInstance from "../lib/axios/axios";
 interface Pokemon {
   name: {
     fr: string;
+    en: string;
+    jp: string;
   };
   sprites: {
     regular: string;
   };
+  generation: number;
   category: string;
   pokedex_id: number;
   stats: {
@@ -127,6 +130,22 @@ function PokemonPage() {
             <p className="font-medium text-[#FFEE99]">{`Vitesse : ${
               pokemon.stats?.vit ?? "Non disponible"
             }`}</p>
+          </div>
+          <div className="generation-container">
+            <p className="text-[#FFEE99] text-lg mt-4">
+              Génération : {pokemon.generation || "Non disponible"}
+            </p>
+          </div>
+          <div className="other-name flex justify-center items-center flex-col mt-4">
+            <h2 className="text-2xl font-semibold mb-4 text-[#FFEE99]">
+              Autres noms
+            </h2>
+            <p className="text-[#FFEE99] text-lg mt-4">
+              Nom anglais : {pokemon.name?.en || "Nom inconnu"}
+            </p>
+            <p className="text-[#FFEE99] text-lg">
+              Nom japonais : {pokemon.name?.jp || "Nom inconnu"}
+            </p>
           </div>
         </div>
       </div>

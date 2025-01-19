@@ -74,7 +74,7 @@ export default function PokemonCard({ allPokemons, search }: PokemonCardProps) {
           sx={{
             backgroundColor: "#CC4C41",
             color: "white !important",
-            "&:hover": { backgroundColor: "#b43d33" }, // Couleur au survol
+            "&:hover": { backgroundColor: "#b43d33" },
           }}
           variant="contained"
           onClick={handleLoadMore}
