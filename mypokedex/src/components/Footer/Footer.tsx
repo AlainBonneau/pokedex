@@ -5,7 +5,7 @@ export default function Footer() {
         Made with ❤️ by{" "}
         <a
           className="text-white"
-          href=""
+          href="https://github.com/AlainBonneau"
           target="_blank"
           rel="noopener noreferrer"
         >

@@ -9,7 +9,6 @@ import MenuIcon from "@mui/icons-material/Menu";
 import Container from "@mui/material/Container";
 import Button from "@mui/material/Button";
 import MenuItem from "@mui/material/MenuItem";
-import AdbIcon from "@mui/icons-material/Adb";
 import { useSearch } from "../SearchContext";
 
 const pages = [
@@ -42,7 +41,7 @@ function Navbar() {
       <AppBar position="static" sx={{ backgroundColor: "#CC4C41" }}>
         <Container maxWidth="xl">
           <Toolbar disableGutters>
-            <AdbIcon sx={{ display: { xs: "none", md: "flex" }, mr: 1 }} />
+            {/* Mettre un logo ici */}
             <Typography
               variant="h6"
               noWrap
@@ -54,7 +53,7 @@ function Navbar() {
                 fontFamily: "monospace",
                 fontWeight: 700,
                 letterSpacing: ".3rem",
-                color: "black",
+                color: "white",
                 textDecoration: "none",
               }}
             >
@@ -104,7 +103,7 @@ function Navbar() {
                 ))}
               </Menu>
             </Box>
-            <AdbIcon sx={{ display: { xs: "flex", md: "none" }, mr: 1 }} />
+            {/* Mettre un logo ici */}
             <Typography
               variant="h5"
               noWrap
