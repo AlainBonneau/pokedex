@@ -13,7 +13,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
         <header>
           <Navbar />
         </header>
-        <main className="flex-1">{children}</main>
+        <main className="flex-1 bg-[#FFF8E7]">{children}</main>
         <Footer />
       </div>
     </SearchProvider>
