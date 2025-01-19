@@ -10,6 +10,7 @@ import Container from "@mui/material/Container";
 import Button from "@mui/material/Button";
 import MenuItem from "@mui/material/MenuItem";
 import AdbIcon from "@mui/icons-material/Adb";
+import { useSearch } from "../SearchContext";
 
 const pages = [
   { name: "Liste", link: "/" },
@@ -18,6 +19,8 @@ const pages = [
 ];
 
 function Navbar() {
+  const { setSearch } = useSearch();
+
   const [anchorElNav, setAnchorElNav] = React.useState<HTMLElement | null>(
     null
   );
@@ -28,6 +31,10 @@ function Navbar() {
 
   const handleCloseNavMenu = () => {
     setAnchorElNav(null);
+  };
+
+  const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearch(e.target.value);
   };
 
   return (
@@ -128,6 +135,13 @@ function Navbar() {
                 </Button>
               ))}
             </Box>
+            <input
+              onChange={handleSearch}
+              type="search"
+              id="pokemon-search"
+              placeholder="Recherche"
+              className="p-1 rounded-sm text-black"
+            />
           </Toolbar>
         </Container>
       </AppBar>

@@ -20,16 +20,21 @@ interface Pokemon {
 
 interface PokemonCardProps {
   allPokemons: Pokemon[];
+  search: string;
 }
 
-export default function PokemonCard({ allPokemons }: PokemonCardProps) {
+export default function PokemonCard({ allPokemons, search }: PokemonCardProps) {
   const [limit, setLimit] = useState(30);
 
   const handleLoadMore = () => {
     setLimit(limit + 30);
   };
 
-  const showAllPokemons = allPokemons.slice(0, limit);
+  const filteredPokemons = allPokemons.filter((pokemon) =>
+    pokemon.name.fr.toLowerCase().includes(search.toLowerCase())
+  );
+
+  const showAllPokemons = filteredPokemons.slice(0, limit);
 
   console.log(allPokemons);
 

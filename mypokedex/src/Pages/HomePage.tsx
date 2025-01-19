@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from "react";
 import PokemonCard from "../components/PokemonCard/PokemonCard";
 import Loader from "../components/Loader/Loader";
+import { useSearch } from "../components/SearchContext";
 import axiosInstance from "../lib/axios/axios";
 
 const HomePage: React.FC = () => {
   const [allPokemons, setAllPokemons] = useState([]);
   const [loader, setLoader] = useState(false);
+  const { search } = useSearch();
 
   async function getAllPokemons() {
     try {
@@ -26,7 +28,7 @@ const HomePage: React.FC = () => {
   return (
     <div className="app-container">
       {loader && <Loader />}
-      <PokemonCard allPokemons={allPokemons} />
+      <PokemonCard search={search} allPokemons={allPokemons} />
     </div>
   );
 };

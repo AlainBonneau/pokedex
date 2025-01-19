@@ -1,15 +1,22 @@
+import { SearchProvider } from "./SearchContext";
 import Navbar from "./Navbar/Navbar";
 import Footer from "./Footer/Footer";
 
-const Layout = ({ children }: { children: React.ReactNode }) => {
+interface LayoutProps {
+  children: React.ReactNode;
+}
+
+const Layout: React.FC<LayoutProps> = ({ children }) => {
   return (
-    <div className="flex flex-col min-h-screen">
-      <header>
-        <Navbar />
-      </header>
-      <main className="flex-1">{children}</main>
-      <Footer />
-    </div>
+    <SearchProvider>
+      <div className="flex flex-col min-h-screen">
+        <header>
+          <Navbar />
+        </header>
+        <main className="flex-1">{children}</main>
+        <Footer />
+      </div>
+    </SearchProvider>
   );
 };
 
