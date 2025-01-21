@@ -34,14 +34,13 @@ export default function PokemonCard({ allPokemons, search }: PokemonCardProps) {
     pokemon.name.fr.toLowerCase().includes(search.toLowerCase())
   );
 
-  const showAllPokemons = filteredPokemons.slice(0, limit);
+  const showAllPokemons = filteredPokemons.slice(1, limit);
 
   console.log(allPokemons);
-
   return (
     <div className="flex flex-wrap justify-center items-center pt-8 pb-8 gap-4">
       {showAllPokemons.map((pokemon, index) => (
-        <Card key={index} sx={{ maxWidth: 345 }}>
+        <Card key={index} sx={{ maxWidth: 345 }} className="hover:scale-105">
           <CardActionArea>
             <CardMedia
               component="img"
@@ -61,7 +60,7 @@ export default function PokemonCard({ allPokemons, search }: PokemonCardProps) {
           <CardActions className="bg-[#C62828] flex items-center justify-center">
             <Button
               size="small"
-              sx={{ color: "black" }}
+              sx={{ color: "#FFEE99", "&:hover": { color: "black" } }}
               href={`/pokemon/${pokemon.pokedex_id}`}
             >
               Voir plus
@@ -72,7 +71,7 @@ export default function PokemonCard({ allPokemons, search }: PokemonCardProps) {
       <div className="w-full flex justify-center mt-4">
         <Button
           sx={{
-            backgroundColor: "#1B1B1B",
+            backgroundColor: "#C62828",
             color: "white !important",
             "&:hover": { backgroundColor: "#b43d33" },
           }}

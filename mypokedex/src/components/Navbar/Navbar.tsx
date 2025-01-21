@@ -37,12 +37,9 @@ function Navbar() {
   };
 
   return (
+    // !TODO Réussir à mettre la navbar en position fixed en haut de la page sans que cela ne décale le contenu de la page
     <div className="navbar-container">
-      <AppBar
-        position="fixed"
-        sx={{ backgroundColor: "#C62828" }}
-        elevation={0}
-      >
+      <AppBar position="sticky" sx={{ backgroundColor: "#C62828" }}>
         <Container maxWidth="xl">
           <Toolbar disableGutters>
             {/* Mettre un logo ici */}
@@ -57,7 +54,7 @@ function Navbar() {
                 fontFamily: "monospace",
                 fontWeight: 700,
                 letterSpacing: ".3rem",
-                color: "#1B1B1B",
+                color: "white",
                 textDecoration: "none",
               }}
             >
@@ -132,7 +129,7 @@ function Navbar() {
                   href={page.link}
                   key={page.name}
                   onClick={handleCloseNavMenu}
-                  sx={{ my: 2, color: "#1B1B1B", display: "block" }}
+                  sx={{ my: 2, color: "#FFEE99", display: "block" }}
                 >
                   {page.name}
                 </Button>

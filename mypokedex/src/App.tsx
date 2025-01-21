@@ -4,6 +4,7 @@ import HomePage from "./Pages/HomePage";
 import PokemonPage from "./Pages/PokemonPage";
 import About from "./Pages/About";
 import Page404 from "./Pages/Page404";
+import "./App.css";
 
 function App() {
   return (
