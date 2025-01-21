@@ -58,7 +58,7 @@ export default function PokemonCard({ allPokemons, search }: PokemonCardProps) {
               </Typography>
             </CardContent>
           </CardActionArea>
-          <CardActions className="bg-[#CC4C41] flex items-center justify-center">
+          <CardActions className="bg-[#C62828] flex items-center justify-center">
             <Button
               size="small"
               sx={{ color: "black" }}
@@ -72,7 +72,7 @@ export default function PokemonCard({ allPokemons, search }: PokemonCardProps) {
       <div className="w-full flex justify-center mt-4">
         <Button
           sx={{
-            backgroundColor: "#CC4C41",
+            backgroundColor: "#1B1B1B",
             color: "white !important",
             "&:hover": { backgroundColor: "#b43d33" },
           }}

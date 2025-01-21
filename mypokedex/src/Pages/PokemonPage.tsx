@@ -67,7 +67,7 @@ function PokemonPage() {
     return (
       <div className="pokemon-page-container">
         <Navbar />
-        <p className="text-red-500 text-center mt-8">{error}</p>
+        <p className="text-[#C62828] text-center mt-8">{error}</p>
       </div>
     );
   }
@@ -99,7 +99,7 @@ function PokemonPage() {
         </h1>
       </div>
 
-      <div className="pokemon-container border-4 border-[#CC4C41] rounded-xl w-3/5 mx-auto my-8 bg-white shadow-lg">
+      <div className="pokemon-container border-4 border-[#C62828] rounded-xl w-3/5 mx-auto my-8 bg-white shadow-lg">
         <div className="pokemon-img flex justify-center items-center p-8">
           <img
             className="w-56 h-56 object-contain"
@@ -107,7 +107,7 @@ function PokemonPage() {
             alt={`Image de ${pokemon.name?.fr || "Aucun pokemon trouvée"}`}
           />
         </div>
-        <div className="stats-container text-center bg-[#CC4C41] p-6">
+        <div className="stats-container text-center bg-[#C62828] p-6">
           <h2 className="text-2xl font-semibold mb-4 text-[#FFEE99]">
             Statistiques
           </h2>
@@ -153,13 +153,13 @@ function PokemonPage() {
       <div className="next-previous-container p-4 flex justify-between max-w-xl mx-auto">
         <button
           onClick={handlePreviousPokemon}
-          className="pt-2 pb-2 pl-6 pr-6 bg-[#CC4C41] text-[#FFEE99] rounded-md font-semibold shadow-md hover:bg-[#b43d33] hover:shadow-lg active:bg-[#9e342b] transition-all duration-200 ease-in-out"
+          className="pt-2 pb-2 pl-6 pr-6 bg-[#C62828] text-[#FFEE99] rounded-md font-semibold shadow-md hover:bg-[#b43d33] hover:shadow-lg active:bg-[#9e342b] transition-all duration-200 ease-in-out"
         >
           Précédent
         </button>
         <button
           onClick={handleNextPokemon}
-          className="pt-2 pb-2 pl-6 pr-6 bg-[#CC4C41] text-[#FFEE99] rounded-md font-semibold shadow-md hover:bg-[#b43d33] hover:shadow-lg active:bg-[#9e342b] transition-all duration-200 ease-in-out"
+          className="pt-2 pb-2 pl-6 pr-6 bg-[#C62828] text-[#FFEE99] rounded-md font-semibold shadow-md hover:bg-[#b43d33] hover:shadow-lg active:bg-[#9e342b] transition-all duration-200 ease-in-out"
         >
           Suivant
         </button>

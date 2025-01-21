@@ -38,7 +38,11 @@ function Navbar() {
 
   return (
     <div className="navbar-container">
-      <AppBar position="static" sx={{ backgroundColor: "#CC4C41" }}>
+      <AppBar
+        position="fixed"
+        sx={{ backgroundColor: "#C62828" }}
+        elevation={0}
+      >
         <Container maxWidth="xl">
           <Toolbar disableGutters>
             {/* Mettre un logo ici */}
@@ -53,7 +57,7 @@ function Navbar() {
                 fontFamily: "monospace",
                 fontWeight: 700,
                 letterSpacing: ".3rem",
-                color: "white",
+                color: "#1B1B1B",
                 textDecoration: "none",
               }}
             >
@@ -128,7 +132,7 @@ function Navbar() {
                   href={page.link}
                   key={page.name}
                   onClick={handleCloseNavMenu}
-                  sx={{ my: 2, color: "white", display: "block" }}
+                  sx={{ my: 2, color: "#1B1B1B", display: "block" }}
                 >
                   {page.name}
                 </Button>
