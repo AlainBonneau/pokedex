@@ -34,14 +34,7 @@ const HomePage: React.FC = () => {
   return (
     <div className="app-container">
       {loader && <Loader />}
-      {locked && (
-        <SasOverlay
-          handleUnlock={handleUnlock}
-          onUnlock={function (): void {
-            throw new Error("Function not implemented.");
-          }}
-        />
-      )}
+      {locked && <SasOverlay onUnlock={handleUnlock} />}
       <PokemonCard search={search} allPokemons={allPokemons} />
     </div>
   );
