@@ -69,18 +69,20 @@ export default function PokemonCard({ allPokemons, search }: PokemonCardProps) {
         </Card>
       ))}
       <div className="w-full flex justify-center mt-4">
-        <Button
-          sx={{
-            backgroundColor: "#C62828",
-            color: "white !important",
-            "&:hover": { backgroundColor: "#b43d33" },
-          }}
-          variant="contained"
-          onClick={handleLoadMore}
-          className="load-more"
-        >
-          Voir plus
-        </Button>
+        {limit < filteredPokemons.length && (
+          <Button
+            sx={{
+              backgroundColor: "#C62828",
+              color: "white !important",
+              "&:hover": { backgroundColor: "#b43d33" },
+            }}
+            variant="contained"
+            onClick={handleLoadMore}
+            className="load-more"
+          >
+            Voir plus
+          </Button>
+        )}
       </div>
     </div>
   );
