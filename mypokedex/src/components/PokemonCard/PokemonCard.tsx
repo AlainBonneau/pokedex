@@ -36,11 +36,14 @@ export default function PokemonCard({ allPokemons, search }: PokemonCardProps) {
 
   const showAllPokemons = filteredPokemons.slice(1, limit);
 
-  console.log(allPokemons);
   return (
     <div className="flex flex-wrap justify-center items-center pt-8 pb-8 gap-4">
-      {showAllPokemons.map((pokemon, index) => (
-        <Card key={index} sx={{ maxWidth: 345 }} className="hover:scale-105">
+      {showAllPokemons.map((pokemon) => (
+        <Card
+          key={pokemon.pokedex_id}
+          sx={{ maxWidth: 345 }}
+          className="hover:scale-105 transition duration-500 ease-in-out"
+        >
           <CardActionArea>
             <CardMedia
               component="img"
