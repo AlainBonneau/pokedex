@@ -34,15 +34,24 @@ export default function PokemonCard({ allPokemons, search }: PokemonCardProps) {
     pokemon.name.fr.toLowerCase().includes(search.toLowerCase())
   );
 
-  const showAllPokemons = filteredPokemons.slice(1, limit);
+  const showAllPokemons = filteredPokemons.slice(0, limit);
 
   return (
     <div className="flex flex-wrap justify-center items-center pt-8 pb-8 gap-4">
+      <div className="search-result-container block w-full text-center pb-4">
+        {search && (
+          <p className="text-lg">
+            {filteredPokemons.length} résultat(s) pour la recherche "{search}"
+          </p>
+        )}
+      </div>
       {showAllPokemons.map((pokemon) => (
         <Card
           key={pokemon.pokedex_id}
           sx={{ maxWidth: 345 }}
-          className="hover:scale-105 transition duration-500 ease-in-out"
+          className={`hover:scale-105 transition duration-500 ease-in-out ${
+            pokemon.pokedex_id === 0 ? "hidden" : "block"
+          }`}
         >
           <CardActionArea>
             <CardMedia
