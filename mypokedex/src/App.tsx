@@ -12,8 +12,8 @@ function App() {
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/about" element={<About />} />
-        <Route path="/pokemon/:pokemonId" element={<PokemonPage />} />
         <Route path="*" element={<Page404 />} />
+        <Route path="/pokemon/:pokemonId" element={<PokemonPage />} />
       </Routes>
     </Layout>
   );

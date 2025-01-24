@@ -1,6 +1,5 @@
 import { useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
-import Navbar from "../components/Navbar/Navbar";
 import Loader from "../components/Loader/Loader";
 import axiosInstance from "../lib/axios/axios";
 
@@ -54,10 +53,19 @@ function PokemonPage() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pokemonId]);
 
+  if (isNaN(Number(pokemonId))) {
+    return (
+      <div className="pokemon-page-container">
+        <p className="text-center mt-8 text-lg">
+          Merci d’entrer un identifiant valide.
+        </p>
+      </div>
+    );
+  }
+
   if (isLoading) {
     return (
       <div className="pokemon-page-container">
-        <Navbar />
         <Loader />
       </div>
     );
@@ -66,7 +74,6 @@ function PokemonPage() {
   if (error) {
     return (
       <div className="pokemon-page-container">
-        <Navbar />
         <p className="text-[#C62828] text-center mt-8">{error}</p>
       </div>
     );
@@ -75,7 +82,6 @@ function PokemonPage() {
   if (!pokemon) {
     return (
       <div className="pokemon-page-container">
-        <Navbar />
         <p className="text-center mt-8">Pokémon introuvable.</p>
       </div>
     );
