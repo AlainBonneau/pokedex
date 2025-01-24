@@ -45,51 +45,42 @@ export default function PokemonCard({ allPokemons, search }: PokemonCardProps) {
           </p>
         )}
       </div>
-      {!allPokemons.length
-        ? // Afficher des squelettes de chargement
-          Array.from({ length: 10 }).map((_, index) => (
-            <div
-              key={index}
-              className="w-48 h-64 bg-gray-300 animate-pulse rounded-lg"
+      {showAllPokemons.map((pokemon) => (
+        <Card
+          key={pokemon.pokedex_id}
+          sx={{ maxWidth: 345 }}
+          className={`hover:scale-105 transition duration-500 ease-in-out ${
+            pokemon.pokedex_id === 0 ? "hidden" : "block"
+          }`}
+        >
+          <CardActionArea>
+            <CardMedia
+              component="img"
+              height="140" // Hauteur explicite
+              width="100%" // Largeur fixe
+              image={pokemon.sprites.regular}
+              alt={pokemon.name.fr}
             />
-          ))
-        : showAllPokemons.map((pokemon) => (
-            <Card
-              key={pokemon.pokedex_id}
-              sx={{ maxWidth: 345 }}
-              className={`hover:scale-105 transition duration-500 ease-in-out ${
-                pokemon.pokedex_id === 0 ? "hidden" : "block"
-              }`}
+            <CardContent>
+              <Typography gutterBottom variant="h5" component="div">
+                {pokemon.name.fr}
+              </Typography>
+              <Typography variant="body2" sx={{ color: "text.secondary" }}>
+                {pokemon.category}
+              </Typography>
+            </CardContent>
+          </CardActionArea>
+          <CardActions className="bg-[#C62828] flex items-center justify-center">
+            <Button
+              size="small"
+              sx={{ color: "#FFEE99", "&:hover": { color: "black" } }}
+              href={`/pokemon/${pokemon.pokedex_id}`}
             >
-              <CardActionArea>
-                <CardMedia
-                  component="img"
-                  height="140" // Hauteur explicite
-                  width="100%" // Largeur fixe
-                  image={pokemon.sprites.regular}
-                  alt={pokemon.name.fr}
-                />
-                <CardContent>
-                  <Typography gutterBottom variant="h5" component="div">
-                    {pokemon.name.fr}
-                  </Typography>
-                  <Typography variant="body2" sx={{ color: "text.secondary" }}>
-                    {pokemon.category}
-                  </Typography>
-                </CardContent>
-              </CardActionArea>
-              <CardActions className="bg-[#C62828] flex items-center justify-center">
-                <Button
-                  size="small"
-                  sx={{ color: "#FFEE99", "&:hover": { color: "black" } }}
-                  href={`/pokemon/${pokemon.pokedex_id}`}
-                >
-                  Voir plus
-                </Button>
-              </CardActions>
-            </Card>
-          ))}
-
+              Voir plus
+            </Button>
+          </CardActions>
+        </Card>
+      ))}
       <div className="w-full flex justify-center mt-4">
         {limit < filteredPokemons.length && (
           <Button
