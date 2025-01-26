@@ -56,8 +56,8 @@ export default function PokemonCard({ allPokemons, search }: PokemonCardProps) {
           <CardActionArea>
             <CardMedia
               component="img"
-              height="140" // Hauteur explicite
-              width="100%" // Largeur fixe
+              height="140"
+              width="100%"
               image={pokemon.sprites.regular}
               alt={pokemon.name.fr}
             />
