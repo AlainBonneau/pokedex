@@ -1,6 +1,6 @@
 export default function Footer() {
   return (
-    <footer className="bg-[#C62828] text-white text-center py-4">
+    <div className="bg-[#C62828] text-white text-center py-4">
       <p>
         Made with ❤️ by{" "}
         <a
@@ -12,6 +12,6 @@ export default function Footer() {
           SparckyDev
         </a>
       </p>
-    </footer>
+    </div>
   );
 }
