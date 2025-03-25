@@ -1,7 +1,42 @@
 import { useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
+import { Box, Button, Card, CardContent, Typography } from "@mui/material";
 import Loader from "../components/Loader/Loader";
 import axiosInstance from "../lib/axios/axios";
+
+const typeColors: Record<string, string> = {
+  Normal: "#A8A77A",
+  Feu: "#EE8130",
+  Eau: "#6390F0",
+  Électrik: "#F7D02C",
+  Plante: "#7AC74C",
+  Glace: "#96D9D6",
+  Combat: "#C22E28",
+  Poison: "#A33EA1",
+  Sol: "#E2BF65",
+  Vol: "#A98FF3",
+  Psy: "#F95587",
+  Insecte: "#A6B91A",
+  Roche: "#B6A136",
+  Spectre: "#735797",
+  Dragon: "#6F35FC",
+  Ténèbres: "#705746",
+  Acier: "#B7B7CE",
+  Fée: "#D685AD",
+};
+
+function getCardGradient(types: { name: string }[] = []) {
+  if (types.length === 0) {
+    return "linear-gradient(135deg, #999 0%, #ccc 100%)";
+  }
+  const mainColor = typeColors[types[0].name] || "#999";
+  if (types.length > 1) {
+    const secondColor = typeColors[types[1].name] || mainColor;
+    return `linear-gradient(135deg, ${mainColor} 0%, ${secondColor} 100%)`;
+  }
+
+  return `linear-gradient(135deg, ${mainColor} 0%, ${mainColor} 100%)`;
+}
 
 interface Pokemon {
   name: {
@@ -23,6 +58,7 @@ interface Pokemon {
     spe_def: number;
     vit: number;
   };
+  types: Array<{ name: string; image: string }>;
 }
 
 function PokemonPage() {
@@ -55,8 +91,8 @@ function PokemonPage() {
 
   if (isNaN(Number(pokemonId))) {
     return (
-      <div className="pokemon-page-container">
-        <p className="text-center mt-8 text-lg">
+      <div className="p-8">
+        <p className="text-center text-lg">
           Merci d’entrer un identifiant valide.
         </p>
       </div>
@@ -65,7 +101,7 @@ function PokemonPage() {
 
   if (isLoading) {
     return (
-      <div className="pokemon-page-container">
+      <div className="p-8">
         <Loader />
       </div>
     );
@@ -73,16 +109,16 @@ function PokemonPage() {
 
   if (error) {
     return (
-      <div className="pokemon-page-container">
-        <p className="text-[#C62828] text-center mt-8">{error}</p>
+      <div className="p-8">
+        <p className="text-[#C62828] text-center">{error}</p>
       </div>
     );
   }
 
   if (!pokemon) {
     return (
-      <div className="pokemon-page-container">
-        <p className="text-center mt-8">Pokémon introuvable.</p>
+      <div className="p-8">
+        <p className="text-center">Pokémon introuvable.</p>
       </div>
     );
   }
@@ -97,78 +133,150 @@ function PokemonPage() {
     window.location.href = `/pokemon/${previousPokemonId}`;
   }
 
+  const cardBackground = getCardGradient(pokemon.types);
+
   return (
-    <div className="pokemon-page-container">
-      <div className="title-container text-center mt-8">
-        <h1 className="font-bold text-4xl text-[#CC4C41]">
-          {pokemon.name?.fr || "Nom inconnu"}
-        </h1>
-      </div>
+    <div
+      className="p-4 flex flex-col items-center min-h-screen"
+      style={{ background: "#f7f7f7" }}
+    >
+      <Card
+        sx={{
+          width: 360,
+          borderRadius: 4,
+          boxShadow: "0 0 12px rgba(0, 0, 0, 0.5)",
+          border: "4px solid #FFCB05",
+          background: cardBackground,
+          position: "relative",
+          overflow: "hidden",
+        }}
+      >
+        <Box
+          sx={{
+            backgroundColor: "rgba(255,255,255,0.3)",
+            padding: "0.5rem 1rem",
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+          }}
+        >
+          <Typography
+            variant="h5"
+            sx={{ fontWeight: "bold", textShadow: "1px 1px 2px #333" }}
+          >
+            {pokemon.name.fr}
+          </Typography>
 
-      <div className="pokemon-container border-4 border-[#C62828] rounded-xl w-3/5 mx-auto my-8 bg-white shadow-lg">
-        <div className="pokemon-img flex justify-center items-center p-8">
+          <Typography
+            variant="body1"
+            sx={{
+              fontWeight: "bold",
+              color: "#D32F2F",
+              textShadow: "1px 1px 2px #fff",
+            }}
+          >
+            {pokemon.stats.hp} PV
+          </Typography>
+        </Box>
+
+        <Box
+          sx={{
+            backgroundColor: "rgba(255,255,255,0.6)",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            height: 200,
+          }}
+        >
           <img
-            className="w-56 h-56 object-contain"
-            src={pokemon.sprites?.regular || ""}
-            alt={`Image de ${pokemon.name?.fr || "Aucun pokemon trouvée"}`}
+            src={pokemon.sprites.regular}
+            alt={pokemon.name.fr}
+            style={{ maxHeight: "100%", maxWidth: "100%" }}
           />
-        </div>
-        <div className="stats-container text-center bg-[#C62828] p-6">
-          <h2 className="text-2xl font-semibold mb-4 text-[#FFEE99]">
-            Statistiques
-          </h2>
-          <div className="grid grid-cols-2 gap-4 text-lg">
-            <p className="font-medium text-[#FFEE99]">{`Hp : ${
-              pokemon.stats?.hp ?? "Non disponible"
-            }`}</p>
-            <p className="font-medium text-[#FFEE99]">{`Attaque : ${
-              pokemon.stats?.atk ?? "Non disponible"
-            }`}</p>
-            <p className="font-medium text-[#FFEE99]">{`Défense : ${
-              pokemon.stats?.def ?? "Non disponible"
-            }`}</p>
-            <p className="font-medium text-[#FFEE99]">{`Attaque spécial : ${
-              pokemon.stats?.spe_atk ?? "Non disponible"
-            }`}</p>
-            <p className="font-medium text-[#FFEE99]">{`Défense spécial : ${
-              pokemon.stats?.spe_def ?? "Non disponible"
-            }`}</p>
-            <p className="font-medium text-[#FFEE99]">{`Vitesse : ${
-              pokemon.stats?.vit ?? "Non disponible"
-            }`}</p>
-          </div>
-          <div className="generation-container">
-            <p className="text-[#FFEE99] text-lg mt-4">
-              Génération : {pokemon.generation || "Non disponible"}
-            </p>
-          </div>
-          <div className="other-name flex justify-center items-center flex-col mt-4">
-            <h2 className="text-2xl font-semibold mb-4 text-[#FFEE99]">
-              Autres noms
-            </h2>
-            <p className="text-[#FFEE99] text-lg mt-4">
-              Nom anglais : {pokemon.name?.en || "Nom inconnu"}
-            </p>
-            <p className="text-[#FFEE99] text-lg">
-              Nom japonais : {pokemon.name?.jp || "Nom inconnu"}
-            </p>
-          </div>
-        </div>
-      </div>
+        </Box>
 
-      <div className="next-previous-container p-4 flex justify-between max-w-xl mx-auto">
-        <button
+        <CardContent sx={{ backgroundColor: "rgba(255,255,255,0.5)" }}>
+          {/* Types (badges) */}
+          <Box className="flex justify-center gap-2 mb-2">
+            {pokemon.types?.map((t) => (
+              <span
+                key={t.name}
+                className="px-2 py-1 text-sm font-bold rounded-full text-white"
+                style={{ backgroundColor: typeColors[t.name] || "#888" }}
+              >
+                {t.name}
+              </span>
+            ))}
+          </Box>
+
+          <Typography
+            variant="subtitle1"
+            sx={{ textAlign: "center", fontStyle: "italic" }}
+          >
+            {pokemon.category} - Génération {pokemon.generation}
+          </Typography>
+
+          <Box
+            sx={{
+              marginTop: "1rem",
+              display: "grid",
+              gridTemplateColumns: "repeat(2, 1fr)",
+              gap: "0.5rem",
+              textAlign: "center",
+            }}
+          >
+            <Typography variant="body2" sx={{ fontWeight: "bold" }}>
+              ATK : {pokemon.stats.atk}
+            </Typography>
+            <Typography variant="body2" sx={{ fontWeight: "bold" }}>
+              DEF : {pokemon.stats.def}
+            </Typography>
+            <Typography variant="body2" sx={{ fontWeight: "bold" }}>
+              ATK SPÉ : {pokemon.stats.spe_atk}
+            </Typography>
+            <Typography variant="body2" sx={{ fontWeight: "bold" }}>
+              DEF SPÉ : {pokemon.stats.spe_def}
+            </Typography>
+            <Typography variant="body2" sx={{ fontWeight: "bold" }}>
+              VITESSE : {pokemon.stats.vit}
+            </Typography>
+          </Box>
+
+          <Box sx={{ marginTop: "1rem", textAlign: "center" }}>
+            <Typography variant="subtitle2" sx={{ fontWeight: "bold" }}>
+              Nom anglais : {pokemon.name.en ?? "?"}
+            </Typography>
+            <Typography variant="subtitle2" sx={{ fontWeight: "bold" }}>
+              Nom japonais : {pokemon.name.jp ?? "?"}
+            </Typography>
+          </Box>
+        </CardContent>
+      </Card>
+      <div className="w-full max-w-[600px] flex justify-between my-2">
+        <Button
           onClick={handlePreviousPokemon}
-          className="pt-2 pb-2 pl-6 pr-6 bg-[#C62828] text-[#FFEE99] rounded-md font-semibold shadow-md hover:bg-[#b43d33] hover:shadow-lg active:bg-[#9e342b] transition-all duration-200 ease-in-out"
+          variant="contained"
+          sx={{
+            backgroundColor: "#C62828",
+            color: "#FFEE99",
+            fontWeight: "bold",
+            "&:hover": { backgroundColor: "#b43d33" },
+          }}
         >
           Précédent
-        </button>
-        <button
+        </Button>
+        <Button
           onClick={handleNextPokemon}
-          className="pt-2 pb-2 pl-6 pr-6 bg-[#C62828] text-[#FFEE99] rounded-md font-semibold shadow-md hover:bg-[#b43d33] hover:shadow-lg active:bg-[#9e342b] transition-all duration-200 ease-in-out"
+          variant="contained"
+          sx={{
+            backgroundColor: "#C62828",
+            color: "#FFEE99",
+            fontWeight: "bold",
+            "&:hover": { backgroundColor: "#b43d33" },
+          }}
         >
           Suivant
-        </button>
+        </Button>
       </div>
     </div>
   );
