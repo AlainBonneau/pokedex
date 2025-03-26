@@ -89,6 +89,14 @@ function PokemonPage() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pokemonId]);
 
+  if (!pokemon?.pokedex_id) {
+    return (
+      <div className="p-8">
+        <p className="text-center text-lg">Aucun pokémon ne correspond à cette id</p>
+      </div>
+    );
+  }
+
   if (isNaN(Number(pokemonId))) {
     return (
       <div className="p-8">

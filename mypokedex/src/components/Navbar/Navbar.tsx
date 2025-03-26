@@ -12,8 +12,8 @@ import MenuItem from "@mui/material/MenuItem";
 import { useSearch } from "../SearchContext";
 
 const pages = [
-  { name: "Liste", link: "/" },
-  { name: "Genre", link: "/gender" },
+  { name: "Accueil", link: "/" },
+  { name: "Pokémons", link: "/pokemon" },
   { name: "A propos", link: "/about" },
 ];
 
@@ -37,12 +37,10 @@ function Navbar() {
   };
 
   return (
-    // !TODO Réussir à mettre la navbar en position fixed en haut de la page sans que cela ne décale le contenu de la page
     <div className="navbar-container">
       <AppBar position="sticky" sx={{ backgroundColor: "#C62828" }}>
         <Container maxWidth="xl">
           <Toolbar disableGutters>
-            {/* Mettre un logo ici */}
             <Typography
               variant="h6"
               noWrap
