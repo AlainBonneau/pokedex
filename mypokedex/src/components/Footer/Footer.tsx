@@ -4,8 +4,8 @@ export default function Footer() {
       <p>
         Made with ❤️ by{" "}
         <a
-          className="text-white"
-          href="https://github.com/AlainBonneau"
+          className="text-white underline"
+          href="https://www.alain-web.fr/"
           target="_blank"
           rel="noopener noreferrer"
         >
