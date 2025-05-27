@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import { Box, Button, Card, CardContent, Typography } from "@mui/material";
 import Loader from "../components/Loader/Loader";
 import axiosInstance from "../lib/axios/axios";
+import { motion } from "framer-motion";
 
 const typeColors: Record<string, string> = {
   Normal: "#A8A77A",
@@ -34,7 +35,6 @@ function getCardGradient(types: { name: string }[] = []) {
     const secondColor = typeColors[types[1].name] || mainColor;
     return `linear-gradient(135deg, ${mainColor} 0%, ${secondColor} 100%)`;
   }
-
   return `linear-gradient(135deg, ${mainColor} 0%, ${mainColor} 100%)`;
 }
 
@@ -61,6 +61,29 @@ interface Pokemon {
   types: Array<{ name: string; image: string }>;
 }
 
+const containerVariants = {
+  hidden: { opacity: 0, scale: 0.95 },
+  visible: {
+    opacity: 1,
+    scale: 1,
+    transition: { duration: 0.5, ease: "easeOut" },
+  },
+};
+
+const imageVariants = {
+  hidden: { opacity: 0, y: -30 },
+  visible: { opacity: 1, y: 0, transition: { delay: 0.3 } },
+};
+
+const badgeVariants = {
+  hidden: { opacity: 0, scale: 0.5 },
+  visible: (i: number) => ({
+    opacity: 1,
+    scale: 1,
+    transition: { delay: 0.2 + i * 0.1 },
+  }),
+};
+
 function PokemonPage() {
   const { pokemonId } = useParams();
   const [pokemon, setPokemon] = useState<Pokemon | null>(null);
@@ -71,7 +94,6 @@ function PokemonPage() {
     try {
       setIsLoading(true);
       setError(null);
-
       const response = await axiosInstance.get(`/pokemon/${pokemonId}`);
       setPokemon(response.data);
     } catch (err) {
@@ -86,13 +108,15 @@ function PokemonPage() {
     if (pokemonId) {
       getOnePokemon();
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pokemonId]);
 
   if (!pokemon?.pokedex_id) {
     return (
       <div className="p-8">
-        <p className="text-center text-lg">Aucun pokémon ne correspond à cette id</p>
+        <p className="text-center text-lg">
+          Aucun pokémon ne correspond à cette id
+        </p>
       </div>
     );
   }
@@ -148,143 +172,166 @@ function PokemonPage() {
       className="p-4 flex flex-col items-center min-h-screen"
       style={{ background: "#f7f7f7" }}
     >
-      <Card
-        sx={{
-          width: 360,
-          borderRadius: 4,
-          boxShadow: "0 0 12px rgba(0, 0, 0, 0.5)",
-          border: "4px solid #FFCB05",
-          background: cardBackground,
-          position: "relative",
-          overflow: "hidden",
-        }}
+      <motion.div
+        variants={containerVariants}
+        initial="hidden"
+        animate="visible"
       >
-        <Box
+        <Card
           sx={{
-            backgroundColor: "rgba(255,255,255,0.3)",
-            padding: "0.5rem 1rem",
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "center",
+            width: 360,
+            borderRadius: 4,
+            boxShadow: "0 0 12px rgba(0, 0, 0, 0.5)",
+            border: "4px solid #FFCB05",
+            background: cardBackground,
+            position: "relative",
+            overflow: "hidden",
           }}
         >
-          <Typography
-            variant="h5"
-            sx={{ fontWeight: "bold", textShadow: "1px 1px 2px #333" }}
-          >
-            {pokemon.name.fr}
-          </Typography>
-
-          <Typography
-            variant="body1"
+          <Box
             sx={{
-              fontWeight: "bold",
-              color: "#D32F2F",
-              textShadow: "1px 1px 2px #fff",
+              backgroundColor: "rgba(255,255,255,0.3)",
+              padding: "0.5rem 1rem",
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
             }}
           >
-            {pokemon.stats.hp} PV
-          </Typography>
-        </Box>
-
-        <Box
-          sx={{
-            backgroundColor: "rgba(255,255,255,0.6)",
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            height: 200,
-          }}
-        >
-          <img
-            src={pokemon.sprites.regular}
-            alt={pokemon.name.fr}
-            style={{ maxHeight: "100%", maxWidth: "100%" }}
-          />
-        </Box>
-
-        <CardContent sx={{ backgroundColor: "rgba(255,255,255,0.5)" }}>
-          {/* Types (badges) */}
-          <Box className="flex justify-center gap-2 mb-2">
-            {pokemon.types?.map((t) => (
-              <span
-                key={t.name}
-                className="px-2 py-1 text-sm font-bold rounded-full text-white"
-                style={{ backgroundColor: typeColors[t.name] || "#888" }}
-              >
-                {t.name}
-              </span>
-            ))}
+            <Typography
+              variant="h5"
+              sx={{ fontWeight: "bold", textShadow: "1px 1px 2px #333" }}
+            >
+              {pokemon.name.fr}
+            </Typography>
+            <Typography
+              variant="body1"
+              sx={{
+                fontWeight: "bold",
+                color: "#D32F2F",
+                textShadow: "1px 1px 2px #fff",
+              }}
+            >
+              {pokemon.stats.hp} PV
+            </Typography>
           </Box>
-
-          <Typography
-            variant="subtitle1"
-            sx={{ textAlign: "center", fontStyle: "italic" }}
-          >
-            {pokemon.category} - Génération {pokemon.generation}
-          </Typography>
 
           <Box
             sx={{
-              marginTop: "1rem",
-              display: "grid",
-              gridTemplateColumns: "repeat(2, 1fr)",
-              gap: "0.5rem",
-              textAlign: "center",
+              backgroundColor: "rgba(255,255,255,0.6)",
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              height: 200,
             }}
           >
-            <Typography variant="body2" sx={{ fontWeight: "bold" }}>
-              ATK : {pokemon.stats.atk}
-            </Typography>
-            <Typography variant="body2" sx={{ fontWeight: "bold" }}>
-              DEF : {pokemon.stats.def}
-            </Typography>
-            <Typography variant="body2" sx={{ fontWeight: "bold" }}>
-              ATK SPÉ : {pokemon.stats.spe_atk}
-            </Typography>
-            <Typography variant="body2" sx={{ fontWeight: "bold" }}>
-              DEF SPÉ : {pokemon.stats.spe_def}
-            </Typography>
-            <Typography variant="body2" sx={{ fontWeight: "bold" }}>
-              VITESSE : {pokemon.stats.vit}
-            </Typography>
+            <motion.img
+              src={pokemon.sprites.regular}
+              alt={pokemon.name.fr}
+              style={{ maxHeight: "100%", maxWidth: "100%" }}
+              variants={imageVariants}
+              initial="hidden"
+              animate="visible"
+            />
           </Box>
 
-          <Box sx={{ marginTop: "1rem", textAlign: "center" }}>
-            <Typography variant="subtitle2" sx={{ fontWeight: "bold" }}>
-              Nom anglais : {pokemon.name.en ?? "?"}
+          <CardContent sx={{ backgroundColor: "rgba(255,255,255,0.5)" }}>
+            <Box className="flex justify-center gap-2 mb-2">
+              {pokemon.types?.map((t, i) => (
+                <motion.span
+                  key={t.name}
+                  className="px-2 py-1 text-sm font-bold rounded-full text-white"
+                  style={{ backgroundColor: typeColors[t.name] || "#888" }}
+                  custom={i}
+                  variants={badgeVariants}
+                  initial="hidden"
+                  animate="visible"
+                >
+                  {t.name}
+                </motion.span>
+              ))}
+            </Box>
+
+            <Typography
+              variant="subtitle1"
+              sx={{ textAlign: "center", fontStyle: "italic" }}
+            >
+              {pokemon.category} - Génération {pokemon.generation}
             </Typography>
-            <Typography variant="subtitle2" sx={{ fontWeight: "bold" }}>
-              Nom japonais : {pokemon.name.jp ?? "?"}
-            </Typography>
-          </Box>
-        </CardContent>
-      </Card>
-      <div className="w-full max-w-[600px] flex justify-between my-2">
-        <Button
-          onClick={handlePreviousPokemon}
-          variant="contained"
-          sx={{
-            backgroundColor: "#C62828",
-            color: "#FFEE99",
-            fontWeight: "bold",
-            "&:hover": { backgroundColor: "#b43d33" },
-          }}
+
+            <Box
+              sx={{
+                marginTop: "1rem",
+                display: "grid",
+                gridTemplateColumns: "repeat(2, 1fr)",
+                gap: "0.5rem",
+                textAlign: "center",
+              }}
+            >
+              <Typography variant="body2" sx={{ fontWeight: "bold" }}>
+                ATK : {pokemon.stats.atk}
+              </Typography>
+              <Typography variant="body2" sx={{ fontWeight: "bold" }}>
+                DEF : {pokemon.stats.def}
+              </Typography>
+              <Typography variant="body2" sx={{ fontWeight: "bold" }}>
+                ATK SPÉ : {pokemon.stats.spe_atk}
+              </Typography>
+              <Typography variant="body2" sx={{ fontWeight: "bold" }}>
+                DEF SPÉ : {pokemon.stats.spe_def}
+              </Typography>
+              <Typography variant="body2" sx={{ fontWeight: "bold" }}>
+                VITESSE : {pokemon.stats.vit}
+              </Typography>
+            </Box>
+
+            <Box sx={{ marginTop: "1rem", textAlign: "center" }}>
+              <Typography variant="subtitle2" sx={{ fontWeight: "bold" }}>
+                Nom anglais : {pokemon.name.en ?? "?"}
+              </Typography>
+              <Typography variant="subtitle2" sx={{ fontWeight: "bold" }}>
+                Nom japonais : {pokemon.name.jp ?? "?"}
+              </Typography>
+            </Box>
+          </CardContent>
+        </Card>
+      </motion.div>
+
+      <div className="w-full max-w-[600px] flex justify-between my-4">
+        <motion.div
+          whileHover={{ scale: 1.1 }}
+          transition={{ type: "spring", stiffness: 300 }}
         >
-          Précédent
-        </Button>
-        <Button
-          onClick={handleNextPokemon}
-          variant="contained"
-          sx={{
-            backgroundColor: "#C62828",
-            color: "#FFEE99",
-            fontWeight: "bold",
-            "&:hover": { backgroundColor: "#b43d33" },
-          }}
+          <Button
+            onClick={handlePreviousPokemon}
+            variant="contained"
+            sx={{
+              backgroundColor: "#C62828",
+              color: "#FFEE99",
+              fontWeight: "bold",
+              "&:hover": { backgroundColor: "#b43d33" },
+            }}
+          >
+            Précédent
+          </Button>
+        </motion.div>
+
+        <motion.div
+          whileHover={{ scale: 1.1 }}
+          transition={{ type: "spring", stiffness: 300 }}
         >
-          Suivant
-        </Button>
+          <Button
+            onClick={handleNextPokemon}
+            variant="contained"
+            sx={{
+              backgroundColor: "#C62828",
+              color: "#FFEE99",
+              fontWeight: "bold",
+              "&:hover": { backgroundColor: "#b43d33" },
+            }}
+          >
+            Suivant
+          </Button>
+        </motion.div>
       </div>
     </div>
   );
