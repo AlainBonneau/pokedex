@@ -78,12 +78,6 @@ function PokemonPage() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const playSound = () => {
-    const sound = new Audio("/sounds/blip.mp3");
-    sound.volume = 0.3;
-    sound.play();
-  };
-
   async function getOnePokemon() {
     try {
       setIsLoading(true);
@@ -102,7 +96,7 @@ function PokemonPage() {
     if (pokemonId) {
       getOnePokemon();
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pokemonId]);
 
   if (!pokemon?.pokedex_id) {
@@ -117,13 +111,11 @@ function PokemonPage() {
   if (error) return <p className="text-center text-red-600">{error}</p>;
 
   const handleNextPokemon = () => {
-    playSound();
     const nextId = Number(pokemonId) + 1;
     window.location.href = `/pokemon/${nextId}`;
   };
 
   const handlePreviousPokemon = () => {
-    playSound();
     const prevId = Number(pokemonId) - 1;
     window.location.href = `/pokemon/${prevId}`;
   };
