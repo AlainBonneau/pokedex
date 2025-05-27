@@ -27,26 +27,14 @@ const typeColors: Record<string, string> = {
 };
 
 function getCardGradient(types: { name: string }[] = []) {
-  if (types.length === 0) {
-    return "linear-gradient(135deg, #999 0%, #ccc 100%)";
-  }
-  const mainColor = typeColors[types[0].name] || "#999";
-  if (types.length > 1) {
-    const secondColor = typeColors[types[1].name] || mainColor;
-    return `linear-gradient(135deg, ${mainColor} 0%, ${secondColor} 100%)`;
-  }
-  return `linear-gradient(135deg, ${mainColor} 0%, ${mainColor} 100%)`;
+  const mainColor = typeColors[types[0]?.name] || "#999";
+  const secondColor = types[1] ? typeColors[types[1].name] : mainColor;
+  return `linear-gradient(135deg, ${mainColor} 0%, ${secondColor} 100%)`;
 }
 
 interface Pokemon {
-  name: {
-    fr: string;
-    en: string;
-    jp: string;
-  };
-  sprites: {
-    regular: string;
-  };
+  name: { fr: string; en: string; jp: string };
+  sprites: { regular: string };
   generation: number;
   category: string;
   pokedex_id: number;
@@ -90,6 +78,12 @@ function PokemonPage() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
+  const playSound = () => {
+    const sound = new Audio("/sounds/blip.mp3");
+    sound.volume = 0.3;
+    sound.play();
+  };
+
   async function getOnePokemon() {
     try {
       setIsLoading(true);
@@ -97,7 +91,7 @@ function PokemonPage() {
       const response = await axiosInstance.get(`/pokemon/${pokemonId}`);
       setPokemon(response.data);
     } catch (err) {
-      console.error("Erreur lors de la récupération du Pokémon :", err);
+      console.error("Erreur lors de la récupération :", err);
       setError("Impossible de charger les informations du Pokémon.");
     } finally {
       setIsLoading(false);
@@ -112,64 +106,33 @@ function PokemonPage() {
   }, [pokemonId]);
 
   if (!pokemon?.pokedex_id) {
-    return (
-      <div className="p-8">
-        <p className="text-center text-lg">
-          Aucun pokémon ne correspond à cette id
-        </p>
-      </div>
-    );
+    return <p className="text-center mt-20 text-lg">Aucun pokémon trouvé</p>;
   }
 
   if (isNaN(Number(pokemonId))) {
-    return (
-      <div className="p-8">
-        <p className="text-center text-lg">
-          Merci d’entrer un identifiant valide.
-        </p>
-      </div>
-    );
+    return <p className="text-center mt-20 text-lg">ID invalide.</p>;
   }
 
-  if (isLoading) {
-    return (
-      <div className="p-8">
-        <Loader />
-      </div>
-    );
-  }
+  if (isLoading) return <Loader />;
+  if (error) return <p className="text-center text-red-600">{error}</p>;
 
-  if (error) {
-    return (
-      <div className="p-8">
-        <p className="text-[#C62828] text-center">{error}</p>
-      </div>
-    );
-  }
+  const handleNextPokemon = () => {
+    playSound();
+    const nextId = Number(pokemonId) + 1;
+    window.location.href = `/pokemon/${nextId}`;
+  };
 
-  if (!pokemon) {
-    return (
-      <div className="p-8">
-        <p className="text-center">Pokémon introuvable.</p>
-      </div>
-    );
-  }
-
-  function handleNextPokemon() {
-    const nextPokemonId = Number(pokemonId) + 1;
-    window.location.href = `/pokemon/${nextPokemonId}`;
-  }
-
-  function handlePreviousPokemon() {
-    const previousPokemonId = Number(pokemonId) - 1;
-    window.location.href = `/pokemon/${previousPokemonId}`;
-  }
+  const handlePreviousPokemon = () => {
+    playSound();
+    const prevId = Number(pokemonId) - 1;
+    window.location.href = `/pokemon/${prevId}`;
+  };
 
   const cardBackground = getCardGradient(pokemon.types);
 
   return (
     <div
-      className="p-4 flex flex-col items-center min-h-screen"
+      className="min-h-screen flex flex-col justify-center items-center px-4"
       style={{ background: "#f7f7f7" }}
     >
       <motion.div
@@ -197,19 +160,12 @@ function PokemonPage() {
               alignItems: "center",
             }}
           >
-            <Typography
-              variant="h5"
-              sx={{ fontWeight: "bold", textShadow: "1px 1px 2px #333" }}
-            >
+            <Typography variant="h5" sx={{ fontWeight: "bold" }}>
               {pokemon.name.fr}
             </Typography>
             <Typography
               variant="body1"
-              sx={{
-                fontWeight: "bold",
-                color: "#D32F2F",
-                textShadow: "1px 1px 2px #fff",
-              }}
+              sx={{ fontWeight: "bold", color: "#D32F2F" }}
             >
               {pokemon.stats.hp} PV
             </Typography>
@@ -236,7 +192,7 @@ function PokemonPage() {
 
           <CardContent sx={{ backgroundColor: "rgba(255,255,255,0.5)" }}>
             <Box className="flex justify-center gap-2 mb-2">
-              {pokemon.types?.map((t, i) => (
+              {pokemon.types.map((t, i) => (
                 <motion.span
                   key={t.name}
                   className="px-2 py-1 text-sm font-bold rounded-full text-white"
@@ -296,11 +252,8 @@ function PokemonPage() {
         </Card>
       </motion.div>
 
-      <div className="w-full max-w-[600px] flex justify-between my-4">
-        <motion.div
-          whileHover={{ scale: 1.1 }}
-          transition={{ type: "spring", stiffness: 300 }}
-        >
+      <div className="flex gap-8 mt-6">
+        <motion.div whileHover={{ scale: 1.1 }}>
           <Button
             onClick={handlePreviousPokemon}
             variant="contained"
@@ -315,10 +268,7 @@ function PokemonPage() {
           </Button>
         </motion.div>
 
-        <motion.div
-          whileHover={{ scale: 1.1 }}
-          transition={{ type: "spring", stiffness: 300 }}
-        >
+        <motion.div whileHover={{ scale: 1.1 }}>
           <Button
             onClick={handleNextPokemon}
             variant="contained"
