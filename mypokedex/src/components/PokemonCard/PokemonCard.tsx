@@ -8,6 +8,19 @@ import Button from "@mui/material/Button";
 import CardActionArea from "@mui/material/CardActionArea";
 import CardActions from "@mui/material/CardActions";
 
+interface Pokemon {
+  name: { fr: string };
+  types: Array<{ name: string; image: string }>;
+  sprites: { regular: string };
+  category: string;
+  pokedex_id: number;
+}
+
+interface PokemonCardProps {
+  allPokemons: Pokemon[];
+  search: string;
+}
+
 const typeColors: Record<string, string> = {
   Normal: "#A8A77A",
   Feu: "#EE8130",
@@ -29,6 +42,20 @@ const typeColors: Record<string, string> = {
   Fée: "#D685AD",
 };
 
+const containerVariants = {
+  hidden: {},
+  visible: {
+    transition: {
+      staggerChildren: 0.08,
+    },
+  },
+};
+
+const cardVariants = {
+  hidden: { opacity: 0, y: 30, scale: 0.9 },
+  visible: { opacity: 1, y: 0, scale: 1 },
+};
+
 function getBackgroundGradient(types: { name: string }[]) {
   if (!types || types.length === 0) {
     return "linear-gradient(135deg, #999 0%, #ccc 100%)";
@@ -41,19 +68,6 @@ function getBackgroundGradient(types: { name: string }[]) {
   } else {
     return `linear-gradient(135deg, ${mainColor} 0%, ${mainColor} 100%)`;
   }
-}
-
-interface Pokemon {
-  name: { fr: string };
-  types: Array<{ name: string; image: string }>;
-  sprites: { regular: string };
-  category: string;
-  pokedex_id: number;
-}
-
-interface PokemonCardProps {
-  allPokemons: Pokemon[];
-  search: string;
 }
 
 export default function PokemonCard({ allPokemons, search }: PokemonCardProps) {
@@ -71,7 +85,12 @@ export default function PokemonCard({ allPokemons, search }: PokemonCardProps) {
   const validPokemons = showAllPokemons.filter((p) => p && p.types);
 
   return (
-    <div className="flex flex-wrap justify-center items-center pt-8 pb-8 gap-4">
+    <motion.div
+      className="flex flex-wrap justify-center items-center pt-8 pb-8 gap-4"
+      variants={containerVariants}
+      initial="hidden"
+      animate="visible"
+    >
       <div className="search-result-container block w-full text-center pb-4">
         {search && (
           <p className="text-lg">
@@ -86,19 +105,22 @@ export default function PokemonCard({ allPokemons, search }: PokemonCardProps) {
         return (
           <motion.div
             key={pokemon.pokedex_id}
-            initial={{ opacity: 0, scale: 0.8 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.3, ease: "easeOut" }}
-            whileHover={{ scale: 1.05 }}
+            variants={cardVariants}
+            whileHover={{
+              scale: 1.05,
+              rotate: 1,
+              boxShadow: "0 12px 25px rgba(0,0,0,0.25)",
+            }}
+            transition={{ type: "spring", stiffness: 200, damping: 12 }}
+            viewport={{ once: true, amount: 0.2 }}
           >
             <Card
               sx={{
                 width: 320,
                 borderRadius: 4,
-                boxShadow: "0 0 10px rgba(0, 0, 0, 0.4)",
                 background: backgroundStyle,
-                position: "relative",
                 overflow: "hidden",
+                pointerEvents: "auto",
               }}
             >
               <CardActionArea>
@@ -171,7 +193,11 @@ export default function PokemonCard({ allPokemons, search }: PokemonCardProps) {
         );
       })}
 
-      <div className="w-full flex justify-center mt-4">
+      <motion.div
+        className="w-full flex justify-center mt-4"
+        whileHover={{ scale: 1.1 }}
+        transition={{ type: "spring", stiffness: 300 }}
+      >
         {limit < filteredPokemons.length && (
           <Button
             sx={{
@@ -186,7 +212,7 @@ export default function PokemonCard({ allPokemons, search }: PokemonCardProps) {
             Voir plus
           </Button>
         )}
-      </div>
-    </div>
+      </motion.div>
+    </motion.div>
   );
 }
