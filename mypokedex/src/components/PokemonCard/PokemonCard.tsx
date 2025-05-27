@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { motion } from "framer-motion";
 import Card from "@mui/material/Card";
 import CardMedia from "@mui/material/CardMedia";
 import CardContent from "@mui/material/CardContent";
@@ -28,7 +29,6 @@ const typeColors: Record<string, string> = {
   Fée: "#D685AD",
 };
 
-// Fonction qui renvoie un dégradé entre deux types (ou un seul)
 function getBackgroundGradient(types: { name: string }[]) {
   if (!types || types.length === 0) {
     return "linear-gradient(135deg, #999 0%, #ccc 100%)";
@@ -68,7 +68,6 @@ export default function PokemonCard({ allPokemons, search }: PokemonCardProps) {
   );
 
   const showAllPokemons = filteredPokemons.slice(0, limit);
-
   const validPokemons = showAllPokemons.filter((p) => p && p.types);
 
   return (
@@ -85,87 +84,90 @@ export default function PokemonCard({ allPokemons, search }: PokemonCardProps) {
         const backgroundStyle = getBackgroundGradient(pokemon.types);
 
         return (
-          <Card
+          <motion.div
             key={pokemon.pokedex_id}
-            sx={{
-              width: 320,
-              borderRadius: 4,
-              boxShadow: "0 0 10px rgba(0, 0, 0, 0.4)",
-              background: backgroundStyle,
-              position: "relative",
-              overflow: "hidden",
-              transition: "transform 0.3s ease",
-              "&:hover": {
-                transform: "scale(1.05)",
-              },
-            }}
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.3, ease: "easeOut" }}
+            whileHover={{ scale: 1.05 }}
           >
-            <CardActionArea>
-              <CardMedia
-                component="img"
-                height="180"
-                image={pokemon.sprites.regular}
-                alt={pokemon.name.fr}
-                sx={{
-                  objectFit: "contain",
-                  backgroundColor: "rgba(255,255,255,0.3)",
-                }}
-              />
-
-              <CardContent>
-                <Typography
-                  gutterBottom
-                  variant="h5"
-                  component="div"
-                  className="text-center font-bold"
-                >
-                  {pokemon.name.fr}
-                </Typography>
-                <Typography
-                  variant="body2"
-                  className="text-center"
-                  sx={{ fontStyle: "italic" }}
-                >
-                  {pokemon.category}
-                </Typography>
-
-                <div className="flex justify-center gap-2 mt-3">
-                  {pokemon.types.map((type) => (
-                    <span
-                      key={type.name}
-                      className="px-2 py-1 text-xs font-bold rounded-full text-white"
-                      style={{
-                        backgroundColor: typeColors[type.name] || "#888",
-                      }}
-                    >
-                      {type.name}
-                    </span>
-                  ))}
-                </div>
-              </CardContent>
-            </CardActionArea>
-
-            <CardActions
+            <Card
               sx={{
-                display: "flex",
-                justifyContent: "center",
-                backgroundColor: "rgba(0,0,0,0.2)",
+                width: 320,
+                borderRadius: 4,
+                boxShadow: "0 0 10px rgba(0, 0, 0, 0.4)",
+                background: backgroundStyle,
+                position: "relative",
+                overflow: "hidden",
               }}
             >
-              <Button
-                size="small"
+              <CardActionArea>
+                <CardMedia
+                  component="img"
+                  height="180"
+                  image={pokemon.sprites.regular}
+                  alt={pokemon.name.fr}
+                  sx={{
+                    objectFit: "contain",
+                    backgroundColor: "rgba(255,255,255,0.3)",
+                  }}
+                />
+
+                <CardContent>
+                  <Typography
+                    gutterBottom
+                    variant="h5"
+                    component="div"
+                    className="text-center font-bold"
+                  >
+                    {pokemon.name.fr}
+                  </Typography>
+                  <Typography
+                    variant="body2"
+                    className="text-center"
+                    sx={{ fontStyle: "italic" }}
+                  >
+                    {pokemon.category}
+                  </Typography>
+
+                  <div className="flex justify-center gap-2 mt-3">
+                    {pokemon.types.map((type) => (
+                      <span
+                        key={type.name}
+                        className="px-2 py-1 text-xs font-bold rounded-full text-white"
+                        style={{
+                          backgroundColor: typeColors[type.name] || "#888",
+                        }}
+                      >
+                        {type.name}
+                      </span>
+                    ))}
+                  </div>
+                </CardContent>
+              </CardActionArea>
+
+              <CardActions
                 sx={{
-                  backgroundColor: "#333",
-                  color: "#fff",
-                  fontWeight: "bold",
-                  "&:hover": { backgroundColor: "#000" },
+                  display: "flex",
+                  justifyContent: "center",
+                  backgroundColor: "rgba(0,0,0,0.2)",
                 }}
-                href={`/pokemon/${pokemon.pokedex_id}`}
               >
-                Voir plus
-              </Button>
-            </CardActions>
-          </Card>
+                <Button
+                  size="small"
+                  sx={{
+                    backgroundColor: "#333",
+                    color: "#fff",
+                    fontWeight: "bold",
+                    "&:hover": { backgroundColor: "#000" },
+                  }}
+                  href={`/pokemon/${pokemon.pokedex_id}`}
+                >
+                  Voir plus
+                </Button>
+              </CardActions>
+            </Card>
+          </motion.div>
         );
       })}
 
